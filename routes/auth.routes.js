@@ -4,9 +4,9 @@ const {check, validationResult} = require('express-validator')
 const jwt = require('jsonwebtoken')
 const config  = require('config')
 
-const router = Router()
-
 const User = require('../models/User')
+
+const router = Router()
 
 // /api/auth/register
 router.post(
@@ -16,36 +16,36 @@ router.post(
     check('password', 'Минимальная длинна пароля 6 символов').isLength({min: 6})
   ],
   async (request, response) => {
-  try {
-    const error = validationResult(request)
-    if (!error.isEmpty()) {
+    try {
+      const error = validationResult(request)
+      if (!error.isEmpty()) {
+        return response
+          .status(400)
+          .json({
+            error: error.array(),
+            message: 'Некорректный логин или пароль'
+          })
+      }
+      const {email, password} = request.body
+      const account = await User.findOne({email})
+      if (account) {
+        response
+          .status(400)
+          .json({message: 'Пользователь, с таким логином уже существует'})
+      }
+
+      const hashedPassword = await bcrypt.hash(password, 12)
+      const user = new User({email, password: hashedPassword})
+      await user.save()
       return response
-        .status(400)
-        .json({
-          error: errors.array(),
-          message: 'Некорректные данные при регистрации'
-        })
-    }
-    const {email, password} = request.body
-    const account = await User.findOne({email})
-    if (account) {
-      response
-        .status(400)
-        .json({message: 'Пользователь, с таким логином уже существует'})
-    }
+        .status(201)
+        .json({message: 'Пользователь создан'})
 
-    const hashedPassword = await bcrypt.hash(password, 12)
-    const user = new User({email, password: hashedPassword})
-    await user.save()
-    return response
-      .status(201)
-      .json({message: 'Пользователь создан'})
-
-  } catch (error) {
-    return response
-      .status(500)
-      .json({message: 'Что-то пошло не так, попробуйте еще раз'})
-  }
+    } catch (error) {
+      return response
+        .status(500)
+        .json({message: 'Внутрення ошибка сервера, попробуйте позже'})
+    }
   }
 )
 
@@ -63,14 +63,14 @@ router.post(
         return response
           .status(400)
           .json({
-            error: errors.array(),
+            error: error.array(),
             message: 'Некорректные данные при входе в систему'
           })
       }
       const {email, password} = request.body
-      const account = await User.findOne({email})
+      const user = await User.findOne({email})
 
-      if (!account) {
+      if (!user) {
         return response
           .status(400)
           .json({

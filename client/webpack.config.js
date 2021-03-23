@@ -66,7 +66,7 @@ const getWebpackPlugins = () => {
   ]
 
   if (isDevelopment) {
-    basePlugins.push(new BundleAnalyzerPlugin())
+    // basePlugins.push(new BundleAnalyzerPlugin())
     basePlugins.push(new ErrorOverlayPlugin())
   }
   if (isProduction) {
@@ -110,7 +110,8 @@ module.exports = {
   devServer: {
     port: 5080,
     hot: isDevelopment,
-    historyApiFallback: true
+    historyApiFallback: true,
+    proxy: {'/api/**': {target: 'http://localhost:5000', secure: false}}
   },
   target: 'web',
   // Оптимизация файлов по чанкам
