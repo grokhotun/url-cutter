@@ -62,26 +62,22 @@ const getWebpackPlugins = () => {
     new MiniCssExtractPlugin({
       filename: filename('css')
     }),
-    new ProgressBarPlugin()
+    new ProgressBarPlugin(),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: path.resolve(__dirname, 'src/favicon.ico'),
+          to: path.resolve(__dirname, 'build'),
+          noErrorOnMissing: true
+        }
+      ]
+    })
   ]
 
   if (isDevelopment) {
     // basePlugins.push(new BundleAnalyzerPlugin())
     basePlugins.push(new ErrorOverlayPlugin())
   }
-  if (isProduction) {
-    basePlugins.push(
-        new CopyPlugin({
-          patterns: [
-            {
-              from: path.resolve(__dirname, 'src/favicon.ico'),
-              to: path.resolve(__dirname, 'build')
-            }
-          ]
-        })
-    )
-  }
-
   return basePlugins
 }
 
