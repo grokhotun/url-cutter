@@ -1,6 +1,6 @@
 import {useState, useCallback, useEffect} from 'react'
 
-const STORAGE_NAME = 'userData'
+const STORAGE_NAME = 'URLCutter'
 
 export const useAuth = () => {
   const [ready, setReady] = useState(false)

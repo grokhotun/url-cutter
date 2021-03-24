@@ -44,8 +44,21 @@ router.get('/:id', auth, async (request, response) => {
   try {
     const {id} = request.params
     const link = await Link.findById(id)
-    console.log(link)
     response.json(link)
+  } catch (error) {
+    return response
+      .status(500)
+      .json({message: 'Внутренняя ошибка сервера, попробуйте позже'})
+  }
+})
+
+router.delete('/delete', auth, async (request, response) => {
+  try {
+    const {id} = request.body
+    await Link.findOneAndRemove({_id: id})
+    response
+      .status(200)
+      .json({message: 'Удалено'})
   } catch (error) {
     return response
       .status(500)

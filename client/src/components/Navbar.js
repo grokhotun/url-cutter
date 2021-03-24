@@ -25,7 +25,7 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        <button onClick={clickHandler} className="btn">Выйти</button>
+        <button onClick={clickHandler} className="btn btn-danger btn-sm">Выйти</button>
       </div>
     </nav>
   )

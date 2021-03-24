@@ -6,8 +6,7 @@ const router = Router()
 router.get('/:code', async (request, response) => {
   try {
     const {code} = request.params
-    const link = await Link.findOne({code: code})
-
+    const link = await Link.findOne({code})
     if (link) {
       link.clicks++
       await link.save()

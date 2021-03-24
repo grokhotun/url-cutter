@@ -2,18 +2,20 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-const LinksList = ({links}) => {
+const LinksList = ({links, onDelete}) => {
   if (!links.length) {
-    return <p className="text-center">Пока нет ни одной ссылки</p>
+    return <p className="mt-3 text-center">Пока нет ни одной ссылки</p>
   }
+
   return (
-    <table className="table table-sm">
+    <table className="table table-sm text-center">
       <thead>
         <tr>
           <th scope="col">#</th>
           <th scope="col">Оригинальная</th>
           <th scope="col">Сокращенная</th>
-          <th scope="col"></th>
+          <th scope="col">Подробнее</th>
+          <th scope="col">Действие</th>
         </tr>
       </thead>
       <tbody>
@@ -26,6 +28,9 @@ const LinksList = ({links}) => {
                 <td>{link.to}</td>
                 <td>
                   <Link to={`/detail/${link._id}`}>Подробнее</Link>
+                </td>
+                <td>
+                  <button className="btn btn-sm btn-danger" onClick={onDelete.bind(null, link._id)}>Удалить</button>
                 </td>
               </tr>
             )

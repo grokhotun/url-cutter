@@ -9,6 +9,13 @@ const LinksPage = () => {
   const [links, setLinks] = useState([])
   const {token} = useContext(AuthContext)
 
+  const deleteLink = async (id) => {
+    await request('/api/link/delete', 'DELETE', {id}, {
+      Authorization: `Bearer ${token}`
+    })
+    fetchLinks()
+  }
+
   const fetchLinks = useCallback(async () => {
     try {
       const data = await request('/api/link', 'GET', null, {
@@ -30,7 +37,7 @@ const LinksPage = () => {
 
   return (
     <div className="links-page">
-      {!isLoading && <LinksList links={links}/>}
+      {!isLoading && <LinksList onDelete={deleteLink} links={links}/>}
     </div>
   )
 }
