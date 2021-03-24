@@ -44,7 +44,7 @@ router.post(
     } catch (error) {
       return response
         .status(500)
-        .json({message: 'Внутрення ошибка сервера, попробуйте позже'})
+        .json({message: 'Внутренняя ошибка сервера, попробуйте позже'})
     }
   }
 )

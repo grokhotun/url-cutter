@@ -1,5 +1,6 @@
 {
   "port": 5000,
   "jwtSecretKey": "frontend is better than backend",
-  "mongoUri": "mongodb+srv://root:qwertysad12345@cluster0.sytah.mongodb.net/urlCutter?retryWrites=true&w=majority"
+  "mongoUri": "mongodb+srv://root:qwertysad12345@cluster0.sytah.mongodb.net/urlCutter?retryWrites=true&w=majority",
+  "baseUrl": "http://localhost:5000"
 }
