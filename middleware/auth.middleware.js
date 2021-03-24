@@ -17,6 +17,7 @@ module.exports = (request, response, next) => {
     const decoded = jwt.verify(token, config.get('jwtSecretKey'))
     request.user = decoded
     next()
+
   } catch (error) {
     return response
         .status(401)
